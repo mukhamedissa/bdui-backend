@@ -1,3 +1,5 @@
+package app
+
 import components.ComponentFactory
 import io.ktor.application.Application
 import io.ktor.application.call
@@ -31,6 +33,7 @@ fun Application.module() {
 }
 
 fun main() {
-    embeddedServer(Netty, 8080, module = Application::module)
+    embeddedServer(Netty, System.getenv("PORT")?.toInt() ?: 23567,
+        module = Application::module)
         .start(wait = true)
 }
