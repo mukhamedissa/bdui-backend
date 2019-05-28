@@ -4,6 +4,9 @@ import components.ComponentFactory
 import io.ktor.application.Application
 import io.ktor.application.call
 import io.ktor.application.install
+import io.ktor.client.HttpClient
+import io.ktor.client.engine.apache.Apache
+import io.ktor.client.request.post
 import io.ktor.features.CallLogging
 import io.ktor.features.Compression
 import io.ktor.features.ContentNegotiation
@@ -25,15 +28,16 @@ fun Application.module() {
             setPrettyPrinting()
         }
     }
+
     install(Routing) {
         get("/") {
-            call.respond(Response(0, ComponentFactory.getResponseComponents()))
+            call.respond(ServiceResponse(0, ComponentFactory.getResponseComponents()))
         }
+
     }
 }
 
 fun main() {
-    embeddedServer(Netty, System.getenv("PORT")?.toInt() ?: 23567,
-        module = Application::module)
+    embeddedServer(Netty,8080, module = Application::module)
         .start(wait = true)
 }

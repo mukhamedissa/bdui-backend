@@ -1,11 +1,9 @@
 package components
 
 import models.*
-import models.ComponentParams.Companion.CENTER_HORIZONTAL
-import models.ComponentParams.Companion.CENTER_VERTICAL
 import models.ComponentParams.Companion.MATCH_PARENT
 import models.ComponentParams.Companion.ORIENTATION_HORIZONTAL
-import models.ComponentParams.Companion.ORIENTATION_VERTICAL
+import models.ComponentParams.Companion.WRAP_CONTENT
 
 object ComponentFactory {
 
@@ -62,6 +60,14 @@ object ComponentFactory {
             children = arrayListOf(titleComponent, descriptionComponent)
         )
 
+        val logoComponent = getImageComponent(
+            url = "https://www.chocotravel.com/ckfinder/userfiles/images/logoforall.png",
+            params = ComponentParams(
+                width = MATCH_PARENT,
+                margin = ComponentIndent(all = 16)
+            )
+        )
+
         val container = getComponent(
             type = ComponentConstants.LINEAR_COMPONENT,
             params = ComponentParams(
@@ -73,20 +79,30 @@ object ComponentFactory {
         )
 
         val buttonComponent = getButtonComponent(
-            text = "Submit",
+            text = "Open Aviata.kz",
             params = ComponentParams(
                 width = MATCH_PARENT,
                 margin = ComponentIndent(all = 12)
             ),
             style = ComponentStyle(
-                backgroundColor = "#FFFFFF",
-                textColor = "#029ac9",
+                backgroundColor = "#0000FF",
+                textColor = "#999999",
                 textSize = 17
             ),
             action = ComponentAction(
                 type = ComponentAction.OPEN_URL,
-                uri = "https://chocotravel.com"
+                uri = "https://aviata.kz"
             )
+        )
+
+        val buttonContainer = getComponent(
+            type = ComponentConstants.LINEAR_COMPONENT,
+            params = ComponentParams(
+                width = MATCH_PARENT,
+                orientation = ORIENTATION_HORIZONTAL,
+                padding = ComponentIndent(all = 16)
+            ),
+            children = arrayListOf(buttonComponent)
         )
 
         val dividerComponent = getViewComponent(
@@ -107,11 +123,42 @@ object ComponentFactory {
             style = ComponentStyle(
                 backgroundColor = "#FFFFFF"
             ),
-            children = arrayListOf(container, inputComponent, buttonComponent,
+            children = arrayListOf(
+                container,
+                inputComponent,
+                buttonContainer,
+                logoComponent,
                 dividerComponent)
         )
 
         return arrayListOf(parent)
+    }
+
+
+    fun getSampleComponents(): List<Component> {
+        val titleComponent = getTextComponent(
+            text = "Kotlin language",
+            style = ComponentStyle(
+                textSize = 19,
+                textColor = "#333333"))
+
+        val buttonComponent = getButtonComponent(
+            text = "Chocotravel",
+            params = ComponentParams(
+                width = MATCH_PARENT),
+            style = ComponentStyle(
+                backgroundColor = "#0000FF",
+                textColor = "#FFFFFF",
+                textSize = 17))
+
+        return arrayListOf(getComponent(
+            type = ComponentConstants.LINEAR_COMPONENT,
+            params = ComponentParams(
+                width = MATCH_PARENT,
+                padding = ComponentIndent(all = 16)),
+            style = ComponentStyle(
+                backgroundColor = "#FF0000"),
+            children = arrayListOf(titleComponent, buttonComponent)))
     }
 
     private fun getComponent(
@@ -131,7 +178,7 @@ object ComponentFactory {
         text: String,
         params: ComponentParams = ComponentParams(),
         style: ComponentStyle = ComponentStyle(),
-        action: ComponentAction
+        action: ComponentAction? = null
     ) = getComponent(
         type = ComponentConstants.BUTTON_COMPONENT,
         params = params,

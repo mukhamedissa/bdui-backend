@@ -2,7 +2,7 @@ package models
 
 import com.google.gson.annotations.SerializedName
 
-data class Response(
+data class ServiceResponse(
     @SerializedName("code") val code: Int,
     @SerializedName("containers") val containers: List<Component>)
 
@@ -19,6 +19,7 @@ data class Component(
 
 data class ComponentStyle(
     @SerializedName("background_color") val backgroundColor: String? = null,
+    @SerializedName("background_resource") val backgroundResource: String? = null,
     @SerializedName("text_color") val textColor: String? = null,
     @SerializedName("text_size") val textSize: Int = ComponentConstants.DEFAULT_TEXT_SIZE)
 
@@ -84,9 +85,11 @@ data class ComponentIndent(
 
 data class ComponentAction(
     @SerializedName("action_type") val type: String? = null,
-    @SerializedName("uri") val uri: String? = null) {
+    @SerializedName("uri") val uri: String? = null,
+    @SerializedName("data") val data: Map<String, String>? = null) {
 
     companion object {
         const val OPEN_URL = "open_url"
+        const val OPEN_ACTIVITY = "open_activity"
     }
 }
